@@ -1,0 +1,43 @@
+services:
+  app:
+    container_name: "kidopi-app"
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile'
+      args:
+        - APP_ENV=${APP_ENV}
+    working_dir: /var/www/html
+    networks:
+      - web
+    depends_on:
+      - database
+
+  reverse-proxy:
+    image: traefik:v3.1
+    container_name: "kidopi-reverse-proxy"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - web
+
+  database:
+    image: mysql:8.4.3
+    container_name: "kidopi-database"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}       
+      MYSQL_USER: ${DB_USERNAME}           
+      MYSQL_PASSWORD: ${DB_PASSWORD}       
+    ports:
+      - "${DB_PORT:-3306}:3306"  
+    volumes:
+      - db_data:/var/lib/mysql  
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge
+
+volumes:
+  db_data:
