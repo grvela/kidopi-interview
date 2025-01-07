@@ -4,10 +4,12 @@ namespace App\DTOs;
 
 class CountriesListDTO
 {
-    public string $country;
+    public int $id;
+    public string $name;
 
-    public function __construct(string $country)
+    public function __construct(int $id, string $name)
     {
-        $this->country = $country;
+        $this->id = $id;
+        $this->name = $name;
     }
 }
