@@ -1,54 +1,103 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: Exemplo de API com Autenticação por API KEY
-  description: Esta é uma API de exemplo com autenticação por API KEY.
+  title: Kidopi COVID API
+  description: API para obter informações sobre países e dados de COVID-19.
   version: 1.0.0
 servers:
-  - url: https://api.exemplo.com/v1
-    description: Servidor principal
-
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-KEY
-
-  schemas:
-    ExemploResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        nome:
-          type: string
-          example: "Item de exemplo"
-        descricao:
-          type: string
-          example: "Descrição do item de exemplo"
-
-security:
-  - ApiKeyAuth: []
-
+  - url: http://localhost/api
+    description: Servidor local
+  - url: https://rodrigovela.dev/api
+    description: Servidor de produção
 paths:
-  /exemplo:
+  /covid/countries:
     get:
-      summary: Obter informações de exemplo
-      description: Retorna uma lista de itens de exemplo.
-      operationId: getExemplo
-      security:
-        - ApiKeyAuth: []
+      summary: Obter todos os países disponíveis
+      description: Retorna uma lista de todos os países disponíveis.
+      operationId: getAllCountries
+      tags:
+        - COVID
       responses:
         '200':
-          description: Sucesso
+          description: Lista de países obtida com sucesso.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExemploResponse'
-        '401':
-          description: Não autorizado
-        '403':
-          description: Proibido
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID do país.
+                      example: 1
+                    name:
+                      type: string
+                      description: Nome do país.
+                      example: Brazil
+        '500':
+          description: Erro ao obter a lista de países.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro.
+                    example: Error to request Kidopi API
+  /covid/country/{country}:
+    get:
+      summary: Obter dados de COVID por país
+      description: Retorna os dados de COVID-19 para um país específico.
+      operationId: getCovidDataByCountry
+      tags:
+        - COVID
+      parameters:
+        - in: path
+          name: country
+          schema:
+            type: string
+          required: true
+          description: Nome do país.
+          example: Angola
+      responses:
+        '200':
+          description: Dados de COVID obtidos com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID da entrada.
+                      example: 0
+                    state:
+                      type: string
+                      description: Estado ou província.
+                      example: SP
+                    country:
+                      type: string
+                      description: Nome do país.
+                      example: Brazil
+                    confirmed:
+                      type: integer
+                      description: Casos confirmados.
+                      example: 1000
+                    deaths:
+                      type: integer
+                      description: Mortes confirmadas.
+                      example: 50
+        '500':
+          description: Erro ao obter os dados de COVID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro.
+                    example: Error to request Kidopi API
