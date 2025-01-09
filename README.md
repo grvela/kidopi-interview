@@ -21,13 +21,13 @@ cd kidopi-interview
 
 ### 2. Run containers 🏃‍♂️
 ```bash
+cat .env.example > .env
+
 sudo docker compose -f docker-compose.yaml -f .docker/compose.dev.yaml up
 ```
 
 ### 3. Install dependencies and configure environment ⚙️
 ```bash
-cat .env.example > .env
-
 sudo docker exec -it kidopi-app /bin/bash 
 
 #/var/www/html

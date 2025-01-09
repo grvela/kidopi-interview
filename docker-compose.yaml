@@ -40,12 +40,12 @@ services:
     build:
       context: './ws'
       dockerfile: 'Dockerfile'
-    working_dir: /usr/src/app
-    volumes:
-      - ./ws:/usr/src/app
-    command: node ws.server.js
+    working_dir: /var/www/html
+    command: "node ws.server.js"
     networks:
       - web
+    depends_on:
+      - app
 
 networks:
   web:
