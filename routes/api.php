@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CovidController;
 
-Route::get('/covid/{state}', [CovidController::class, 'getCovidDataByCountry']);
-Route::get('/countries', [CovidController::class, 'getAllCountries']);
+Route::get('/covid/countries', [CovidController::class, 'getAllCountries']);
+Route::get('/covid/country/{country}', [CovidController::class, 'getCovidDataByCountry']);

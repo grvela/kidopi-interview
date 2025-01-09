@@ -13,7 +13,7 @@ class CovidDataDTO
     public function __construct(int $id, string $province, string $country, int $confirmed, int $deaths)
     {
         $this->id = $id;
-        $this->province = $province;
+        $this->province = $province ?: $country;
         $this->country = $country;
         $this->confirmed = $confirmed;
         $this->deaths = $deaths;

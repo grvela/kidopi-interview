@@ -35,6 +35,20 @@ services:
     networks:
       - web
 
+  websocket:
+    container_name: kidopi-websocket
+    build:
+      context: './ws'
+      dockerfile: 'Dockerfile'
+    working_dir: /usr/src/app
+    volumes:
+      - ./ws:/usr/src/app
+    ports:
+      - "3000:3000"
+    command: node ws.server.js
+    networks:
+      - web
+
 networks:
   web:
     driver: bridge
