@@ -43,8 +43,6 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./ws:/usr/src/app
-    ports:
-      - "3000:3000"
     command: node ws.server.js
     networks:
       - web

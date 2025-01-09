@@ -8,6 +8,12 @@ services:
       - "traefik.http.services.app.loadbalancer.server.port=80"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  
+  websocket:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.websocket.rule=Host(`localhost`) && PathPrefix(`/ws`)"
+      - "traefik.http.services.websocket.loadbalancer.server.port=3000"
 
   reverse-proxy:
     command:

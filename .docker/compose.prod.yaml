@@ -9,6 +9,18 @@ services:
       - "traefik.http.routers.app-secure.tls=true"
       - "traefik.http.routers.app-secure.tls.certresolver=myresolver"
       - "traefik.http.services.app.loadbalancer.server.port=80"
+  
+  websocket:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.websocket.rule=Host(`example.domain.com`) && PathPrefix(`/ws`)"
+      - "traefik.http.routers.websocket.entrypoints=web"
+      - "traefik.http.routers.websocket-secure.rule=Host(`example.domain.com`) && PathPrefix(`/ws`)"
+      - "traefik.http.routers.websocket-secure.entrypoints=websecure"
+      - "traefik.http.routers.websocket-secure.tls=true"
+      - "traefik.http.routers.app-secure.tls.certresolver=myresolver"
+      - "traefik.http.services.websocket.loadbalancer.server.port=3000"
+
 
   reverse-proxy:
     command: 
