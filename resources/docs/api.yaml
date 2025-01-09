@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: Exemplo de API com Autenticação por API KEY
+  description: Esta é uma API de exemplo com autenticação por API KEY.
+  version: 1.0.0
+servers:
+  - url: https://api.exemplo.com/v1
+    description: Servidor principal
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  schemas:
+    ExemploResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "Item de exemplo"
+        descricao:
+          type: string
+          example: "Descrição do item de exemplo"
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /exemplo:
+    get:
+      summary: Obter informações de exemplo
+      description: Retorna uma lista de itens de exemplo.
+      operationId: getExemplo
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExemploResponse'
+        '401':
+          description: Não autorizado
+        '403':
+          description: Proibido
