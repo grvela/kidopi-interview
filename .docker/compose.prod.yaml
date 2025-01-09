@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.websocket-secure.rule=Host(`example.domain.com`) && PathPrefix(`/ws`)"
       - "traefik.http.routers.websocket-secure.entrypoints=websecure"
       - "traefik.http.routers.websocket-secure.tls=true"
-      - "traefik.http.routers.app-secure.tls.certresolver=myresolver"
+      - "traefik.http.routers.websocket-secure.tls.certresolver=myresolver"
       - "traefik.http.services.websocket.loadbalancer.server.port=3000"
 
 
